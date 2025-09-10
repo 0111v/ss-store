@@ -2,7 +2,6 @@
 
 import { useCreateProduct } from "@/lib/queries/products.query"
 import { ProductInsert } from "@/types/products.types"
-import React, { useState } from "react"
 import { ProductDialog } from "./product-dialog"
 
 export function AddProductDialog() {

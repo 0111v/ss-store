@@ -48,7 +48,7 @@ export function ProductDialog({
     purchase_price: purchase,
     sale_price: sale
   }
-  let validatedForm = productsValidation.productInsert.parse(formData)
+  const validatedForm = productsValidation.productInsert.parse(formData)
   try {
     await onSubmit(validatedForm)
     setName("")
