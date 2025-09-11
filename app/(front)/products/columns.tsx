@@ -26,7 +26,7 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: '',
     cell: ({ row }) => {
       const product = row.original
       return (
