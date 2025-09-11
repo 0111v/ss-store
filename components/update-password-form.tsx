@@ -26,7 +26,7 @@ export function UpdatePasswordForm({
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await updatePassword({password})
-    if (ok) router.push("/protected");
+    if (ok) router.push("/products");
   };
 
   return (

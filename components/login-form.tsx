@@ -28,7 +28,7 @@ export function LoginForm({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await signIn({ email, password })
-    if (ok) router.push("/protected");
+    if (ok) router.push("/products");
   };
 
   return (
