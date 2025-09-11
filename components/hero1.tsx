@@ -34,7 +34,7 @@ const Hero1 = ({
     },
     secondary: {
       text: "Saiba mais",
-      url: "",
+      url: "/",
     },
   },
   image = {
