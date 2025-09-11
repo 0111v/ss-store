@@ -10,7 +10,7 @@ export default function DemoPage() {
 
   if (isLoading) return <div className="flex min-h-screen justify-center items-center">Loading</div>
   if (error) return <div className="flex min-h-screen justify-center items-center">Error</div>
-  if (!data) return
+  if (!data) return null
 
 
   return (
