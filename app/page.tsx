@@ -16,7 +16,10 @@ export default function Home() {
               <div className="flex items-center gap-2">
               </div>
             </div>
-            <AuthButton />
+            <div className="flex gap-3">
+              <AuthButton />
+              <ThemeSwitcher />
+            </div>
           </div>
         </nav>
         <div className="flex-1 flex flex-col max-w-7xl p-5">
@@ -31,10 +34,9 @@ export default function Home() {
               className="font-bold hover:underline"
               rel="noreferrer"
             >
-              SS Store
+              SS STORE
             </a>
           </p>
-          <ThemeSwitcher />
         </footer>
       </div>
     </main>
