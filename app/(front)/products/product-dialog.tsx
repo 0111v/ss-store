@@ -11,11 +11,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { productsValidation } from "@/lib/schemas/products.schema"
 import { Product, ProductInsert } from "@/types/products.types"
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+
 
 export function ProductDialog({
   onSubmit, isPending, product, dialogContent
@@ -26,40 +37,32 @@ export function ProductDialog({
   dialogContent: Record<'title' | 'description' | 'button', string>
 }) { 
   const [showModal, setShowModal] = useState(false)  
-  const [name, setName] = useState('')
-  const [quantity, setQuantity] = useState('')
-  const [purchase, setPurchase] = useState('')
-  const [sale, setSale] = useState('')
+
+  const submitForm = async (values: ProductInsert) => {
+    await onSubmit(values)
+    form.reset()
+    setShowModal(false)
+  }
+
+  const form = useForm<ProductInsert>({
+    resolver: zodResolver(productsValidation.productInsert),
+    defaultValues: {
+      name: '',
+      quantity: undefined,
+      purchase_price: undefined,
+      sale_price: undefined,
+    }
+  })
 
   useEffect(() => {
     if (product) {
-      setName(product.name)
-      setQuantity(product.quantity.toString())
-      setPurchase(product.purchase_price.toString())
-      setSale(product.sale_price.toString())
-    }
-  }, [product])
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-  e.preventDefault()
-  const formData = {
-    name,
-    quantity,
-    purchase_price: purchase,
-    sale_price: sale
-  }
-  const validatedForm = productsValidation.productInsert.parse(formData)
-  try {
-    await onSubmit(validatedForm)
-    setName("")
-    setQuantity("")
-    setPurchase("")
-    setSale("")
-    setShowModal(false)
-  } catch (error) {
-    console.log(error)
-  }
-}
+      form.reset({
+        name: product.name,
+        quantity: product.quantity,
+        purchase_price: product.purchase_price,
+        sale_price: product.sale_price,
+      })
+    }}, [product, form])
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
@@ -73,32 +76,94 @@ export function ProductDialog({
             {dialogContent.description}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" value={name} onChange={(e) => setName(e.target.value)}/>
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="quantity-1">Quantity</Label>
-              <Input id="quantity-1" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="purchase-1">Purchase Price</Label>
-              <Input id="purchase-1" name="purchase" value={purchase} onChange={(e) => setPurchase(e.target.value)}/>
-            </div>            
-            <div className="grid gap-3">
-              <Label htmlFor="sale-1">Sale Price</Label>
-              <Input id="sale-1" name="sale" value={sale} onChange={(e) => setSale(e.target.value)}/>
-            </div>
-          </div>
-          <DialogFooter className="mt-3">
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit" disabled={isPending}>Save</Button>
-          </DialogFooter>
-        </form>
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(submitForm)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Name" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product Quantity</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Quantity" 
+                        {...field} 
+                        type="number"
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value === "" ? undefined : e.target.valueAsNumber)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />              
+              <FormField
+                control={form.control}
+                name="purchase_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Purchase Price</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Purchase Price" 
+                        {...field} 
+                        type="number"
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value === "" ? undefined : e.target.valueAsNumber)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />              
+              <FormField
+                control={form.control}
+                name="sale_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sale Price</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Sale price" 
+                        {...field} 
+                        type="number"
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value === "" ? undefined : e.target.valueAsNumber)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter className="mt-3">
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit" disabled={isPending}>Save</Button>
+              </DialogFooter>
+            </form>
+          </Form>
       </DialogContent>
     </Dialog>
   )

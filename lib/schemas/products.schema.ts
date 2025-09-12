@@ -13,9 +13,9 @@ export const productsValidation = {
 
   productInsert: z.object({
     name: z.string(),
-    quantity: z.coerce.number().int().nonnegative(),
-    purchase_price: z.coerce.number().nonnegative(),
-    sale_price: z.coerce.number().nonnegative(),
+    quantity: z.number().int().nonnegative(),
+    purchase_price: z.number().nonnegative(),
+    sale_price: z.number().nonnegative(),
   }),
 
   productUpdate: z.object({
