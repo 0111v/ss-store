@@ -25,7 +25,7 @@ export function ForgotPasswordForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [success, setSuccess] = useState(false);
-  const { forgotPassword, loading, error } = useAuthStore()
+  const { forgotPassword, loading } = useAuthStore()
 
   const handleForgotPassword = async (values: ForgotPassword) => {
     const ok = await forgotPassword(values)
@@ -34,7 +34,7 @@ export function ForgotPasswordForm({
 
   const form = useForm({
     resolver: zodResolver(authValidation.forgotPassword),
-    defaultValues: { email: ''}
+    defaultValues: { email: '' }
   })
 
   return (
@@ -67,10 +67,10 @@ export function ForgotPasswordForm({
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleForgotPassword)}>
-                  <FormField 
+                  <FormField
                     control={form.control}
                     name="email"
-                    render={({ field}) => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>

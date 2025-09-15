@@ -23,7 +23,7 @@ export function UpdatePasswordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { updatePassword, loading, error } = useAuthStore()
+  const { updatePassword, loading } = useAuthStore()
   const router = useRouter();
 
   const handleForgotPassword = async (values: UpdatePassword) => {

@@ -24,7 +24,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { signIn, error, loading } = useAuthStore()
+  const { signIn, loading } = useAuthStore()
   const router = useRouter();
 
   const handleSignIn = async (values: SignIn) => {
@@ -39,7 +39,7 @@ export function LoginForm({
 
   return (
     <LoadingState
-      loading={loading}      
+      loading={loading}
     >
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <Card>
@@ -52,28 +52,28 @@ export function LoginForm({
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleSignIn)}>
-                <FormField 
+                <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Email" {...field} type="email"/>
+                        <Input placeholder="Email" {...field} type="email" />
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField 
+                <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Password" {...field} type="password"/>
+                        <Input placeholder="Password" {...field} type="password" />
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
@@ -87,7 +87,7 @@ export function LoginForm({
                   >
                     Forgot your password?
                   </Link>
-                </div>                
+                </div>
                 <Button type="submit" className="w-full mt-4" disabled={loading}>
                   {loading ? "Logging in..." : "Login"}
                 </Button>
