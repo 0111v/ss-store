@@ -5,6 +5,8 @@ export const productsValidation = {
     id: z.uuid(),
     user_id: z.uuid(),
     created_at: z.string(),
+    updated_at: z.string(),
+    deleted_at: z.string(),
     name: z.string(),
     quantity: z.number(),
     purchase_price: z.number(),
