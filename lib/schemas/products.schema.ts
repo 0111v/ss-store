@@ -19,7 +19,7 @@ export const productsValidation = {
     quantity: z.number().int().nonnegative(),
     purchase_price: z.number().nonnegative(),
     sale_price: z.number().nonnegative(),
-    code: z.string().min(1).max(50).optional()
+    code: z.string().optional()
   }),
 
   productUpdate: z.object({
@@ -27,6 +27,6 @@ export const productsValidation = {
     quantity: z.coerce.number().int().nonnegative().optional(),
     purchase_price: z.coerce.number().nonnegative().optional(),
     sale_price: z.coerce.number().nonnegative().optional(),
-    code: z.string().min(1).max(50).optional()
+    code: z.string().optional()
   })
 }
