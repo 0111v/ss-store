@@ -25,14 +25,18 @@ export const columns: ColumnDef<Product>[] = [
     header: "Sale Price"
   },
   {
+    accessorKey: "code",
+    header: "Product Code"
+  },
+  {
     id: "actions",
     header: '',
     cell: ({ row }) => {
       const product = row.original
       return (
         <div className="flex justify-end gap-3">
-          <EditProductDialog id={product.id}/>
-          <DeleteProductButton id={product.id}/>
+          <EditProductDialog id={product.id} />
+          <DeleteProductButton id={product.id} />
         </div>
       )
     }
