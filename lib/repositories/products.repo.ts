@@ -33,5 +33,21 @@ export const productsRepo = {
   deleteProduct: (id: string) =>
     calldb<void>((supabase) =>
       supabase.from('products').update({ deleted_at: new Date().toISOString() }).eq('id', id)
-    )
+    ),
+
+  validateProductCode: async (code: string, excludeId?: string) => {
+    const data = await calldb<{ id: string } | null>((supabase) => {
+      const query = supabase
+        .from('products')
+        .select('id')
+        .eq('code', code)
+        .is('deleted_at', null)
+      if (excludeId) {
+        query.neq('id', excludeId)
+      }
+      return query.maybeSingle()
+    })
+    return data === null // true if code is available
+  }
 }
+
